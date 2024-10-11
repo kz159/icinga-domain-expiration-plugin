@@ -102,6 +102,16 @@ check_domain()
 			EXDATE=`date -d"$EXDATE_TMP" +%Y-%m-%d`
 			EXP_DAYS=$(( ( $(date -ud ${EXDATE} +'%s') - $(date -ud `date +%Y-%m-%d` +'%s') )/60/60/24 ))
 		fi
+        elif [ "$DTYPE" == "style" ]
+        then
+                EXDATE=$(${WHOIS} "${1}" | ${AWK} '/Registry Expiry Date:/ { print $4 }' | cut -c 1-16)
+                if [ -z "$EXDATE" ]
+                then
+                        EXP_DAYS=NULL
+                else
+                        EXDATE=`date -d"$EXDATE" +%Y-%m-%d`
+                        EXP_DAYS=$(( ( $(date -ud ${EXDATE} +'%s') - $(date -ud `date +%Y-%m-%d` +'%s') )/60/60/24 ))
+                fi
 	elif [ "$DTYPE" == "info" ]
 	then
 		EXDATE_TMP=$(${WHOIS} -h whois.afilias.info "${1}" | ${AWK} '/Expiry Date:/ { print $4 }' | cut -c 1-16)

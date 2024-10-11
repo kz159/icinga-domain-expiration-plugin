@@ -33,6 +33,7 @@ Supported Top-level Domains
 * me
 * su
 * studio
+* style
 * nu
 * ru
 * xn--p1ai (рф)
